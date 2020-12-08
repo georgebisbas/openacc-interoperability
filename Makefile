@@ -7,23 +7,24 @@ CXXFLAGS=-hlist=a
 CC=cc
 CFLAGS=-hlist=a
 CUDAC=nvcc
-CUDAFLAGS=-gencode arch=compute_60,code=sm_60 -gencode arch=compute_70,code=sm_70 -gencode arch=compute_75,code=sm_75 -gencode arch=compute_80,code=sm_80
+CUDAFLAGS= -gencode arch=compute_60,code=sm_60 -gencode arch=compute_70,code=sm_70 -gencode arch=compute_75,code=sm_75
 FC=ftn
 FFLAGS=-ra
 LDFLAGS=-L$(CUDA_HOME)/lib64 -lcudart
 else
 # PGI Compiler
 EXES+=cuf_main cuf_openacc_main openacc_cublas  
-CXX=nvc++
-CXXFLAGS=-fast -acc -Minfo=accel -gpu=cc60,cc70,cc75,cc80
-CC=nvc
-CFLAGS=-fast -acc -Minfo=accel -gpu=cc60,cc70,cc75,cc80
+CXX=pgc++
+CXXFLAGS=-fast -acc -Minfo=accel -ta=tesla
+CC=pgcc
+CFLAGS=-fast -acc -Minfo=accel -ta=tesla
 CUDAC=nvcc
 # Hard-coded architectures to avoid build issue when arches are added or
 # removed from compilers
-CUDAFLAGS=-gencode arch=compute_60,code=sm_60 -gencode arch=compute_70,code=sm_70 -gencode arch=compute_75,code=sm_75 -gencode arch=compute_80,code=sm_80
+CUDAFLAGS=
+# -gencode arch=compute_60,code=sm_60 -gencode arch=compute_70,code=sm_70 -gencode arch=compute_75,code=sm_75
 FC=nvfortran
-FFLAGS=-fast -acc -Minfo=accel -gpu=cc60,cc70,cc75,cc80
+FFLAGS=-fast -acc -Minfo=accel -ta=tesla
 LDFLAGS=-Mcuda 
 endif
 
@@ -39,6 +40,9 @@ openacc_c_cublas_v2: openacc_c_cublas_v2.o
 	$(CC) -o $@ $(CFLAGS) $^ $(LDFLAGS) -Mcudalib=cublas
 
 openacc_c_main: saxpy_cuda.o openacc_c_main.o
+	$(CXX) -o $@ $(CFLAGS) $^ $(LDFLAGS)
+
+half_precision: saxpy_cuda.o half_precision.o
 	$(CXX) -o $@ $(CFLAGS) $^ $(LDFLAGS)
 
 cuda_main: saxpy_openacc_c.o cuda_main.o
