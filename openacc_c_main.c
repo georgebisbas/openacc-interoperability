@@ -2,13 +2,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+
 extern void saxpy(int,float,float*,float*);
 
 int main(int argc, char **argv)
 {
   float *x, *y, tmp;
   int n = 1<<20, i;
-
+  fprintf(stdout, "n = %d\n",n);
   x = (float*)malloc(n*sizeof(float));
   y = (float*)malloc(n*sizeof(float));
 
@@ -29,6 +30,6 @@ int main(int argc, char **argv)
     }
   }
 
-  fprintf(stdout, "y[0] = %f\n",y[0]);
+  fprintf(stdout, "y[n-1] = %f\n",y[n-1]);
   return 0;
 }
