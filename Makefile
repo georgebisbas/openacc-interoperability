@@ -7,7 +7,7 @@ CXXFLAGS=-hlist=a
 CC=cc
 CFLAGS=-hlist=a
 CUDAC=nvcc
-CUDAFLAGS= -gencode arch=compute_75,code=sm_75
+CUDAFLAGS= -gencode arch=compute_80,code=sm_80
 FC=ftn
 FFLAGS=-ra
 LDFLAGS=-L$(CUDA_HOME)/lib64 -lcudart
@@ -15,15 +15,15 @@ else
 # PGI Compiler
 EXES+=cuf_main cuf_openacc_main openacc_cublas  
 CXX=nvc++
-CXXFLAGS=-fast -acc -Minfo=all -gpu= cc75
+CXXFLAGS=-fast -acc -Minfo=all -gpu= cc80
 CC=nvc
-CFLAGS=-fast -acc -Minfo=all -gpu=cc75
+CFLAGS=-fast -acc -Minfo=all -gpu=cc80
 CUDAC=nvcc
 # Hard-coded architectures to avoid build issue when arches are added or
 # removed from compilers
-CUDAFLAGS= -gencode arch=compute_75,code=sm_75
+CUDAFLAGS= -gencode arch=compute_80,code=sm_80
 FC=nvfortran
-FFLAGS=-fast -acc -Minfo=all -gpu=cc75
+FFLAGS=-fast -acc -Minfo=all -gpu=cc80
 LDFLAGS=-Mcuda 
 endif
 

@@ -16,7 +16,7 @@ int main(int argc, char **argv)
   float *x, *y; 
   __half *xf, *yf;
  
-  int n = 1<<23, i;
+  int n = 1<<15, i;
   fprintf(stdout, "[n] = %d\n", n);
 
   x = (float*)malloc(n*sizeof(float));
